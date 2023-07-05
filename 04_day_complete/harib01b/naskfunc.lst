@@ -1,0 +1,21 @@
+     1 00000000                                 ; naskfunc
+     2 00000000                                 ; TAB=4
+     3 00000000                                 
+     4 00000000                                 [FORMAT "WCOFF"]				; 오브젝트 파일을 만드는 모드	
+     5 00000000                                 [INSTRSET "i486p"]				; 486의 명령까지 사용하고 싶다고 하는 기술
+     6 00000000                                 [BITS 32]					; 32 비트 모드용의 기계어를 만든다
+     7 00000000                                 [FILE "naskfunc.nas"]				; 원시 파일명 정보
+     8 00000000                                 
+     9 00000000                                 		GLOBAL	_io_hlt,_write_mem8
+    10 00000000                                 
+    11                                          [SECTION .text]
+    12 00000000                                 
+    13 00000000                                 _io_hlt:	; void io_hlt(void);
+    14 00000000 F4                              		HLT
+    15 00000001 C3                              		RET
+    16 00000002                                 
+    17 00000002                                 _write_mem8:	; void write_mem8(int addr, int data);
+    18 00000002 8B 4C 24 04                     		MOV		ECX,[ESP+4]		; [ESP+4]에 addr가 들어가 있으므로 그것을 ECX에 read
+    19 00000006 8A 44 24 08                     		MOV		AL,[ESP+8]		; [ESP+8]에 data가 들어가 있으므로 그것을 AL에 read
+    20 0000000A 88 01                           		MOV		[ECX],AL
+    21 0000000C C3                              		RET
